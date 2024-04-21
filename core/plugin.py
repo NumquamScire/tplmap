@@ -14,12 +14,16 @@ import threading
 import time
 import utils.config
 
+
 def _recursive_update(d, u):
     # Update value of a nested dictionary of varying depth
-
+    try:
+        collectionsAbc = collections.abc
+    except AttributeError:
+        collectionsAbc = collections
     for k, v in u.items():
-        if isinstance(d, collections.Mapping):
-            if isinstance(v, collections.Mapping):
+        if isinstance(d, collectionsAbc.Mapping):
+            if isinstance(v, collectionsAbc.Mapping):
                 r = _recursive_update(d.get(k, {}), v)
                 d[k] = r
             else:
